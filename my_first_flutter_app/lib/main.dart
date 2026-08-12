@@ -21,69 +21,207 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           title: const Text(
             'My First Flutter Application',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
 
         body: Center(
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: const BorderSide(color: Colors.blue, width: 2),
-            ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-            child: Padding(
-              padding: const EdgeInsets.all(25),
-
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Flag 12: Display image from assets
-                  ClipRRect(
+                // Profile Card
+                Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/lopesh.jfif',
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  const Text(
-                    'Keith Francis Lopez',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                    side: const BorderSide(
                       color: Colors.blue,
+                      width: 2,
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(25),
 
-                  const Text(
-                    'BSIT 3',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            'assets/lopesh.jfif',
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Text(
+                          'Keith Francis Lopez',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Text(
+                          'BSIT 3',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Text(
+                          'My First Flutter Application',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.green,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Text(
+                          'August 11, 2026',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Text(
+                          'Hobby: Touching Grass',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Divider(),
+
+                        const SizedBox(height: 15),
+
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Age: 21',
+                              style: TextStyle(fontSize: 15),
+                            ),
+
+                            SizedBox(width: 30),
+
+                            Text(
+                              'Birthdate: September 25, 2004',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // SPACE BETWEEN CARDS
+                const SizedBox(height: 5),
+
+                // Favorite Card
+                Card(
+                  elevation: 7,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    side: const BorderSide(
+                      color: Colors.blue,
+                      width: 2,
+                    ),
                   ),
 
-                  const SizedBox(height: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
 
-                  const Text(
-                    'My First Flutter Application',
-                    style: TextStyle(fontSize: 20, color: Colors.green),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'My Favorites',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        const Text(
+                          'Favorite Game: Dota',
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
+
+                        const SizedBox(height: 2),
+
+                        const Text(
+                          'Favorite Food: Pizza and Burgir',
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
+
+                        const SizedBox(height: 2),
+
+                        const Text(
+                          'Favorite Movie: Spider-Man',
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
+
+                        const SizedBox(height: 2),
+
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Favorite Color: Black',
+                              style: TextStyle(fontSize: 13),
+                            ),
+
+                            SizedBox(width: 13),
+
+                            Text(
+                              'Favorite Sport: Chess',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    'August 4, 2026',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

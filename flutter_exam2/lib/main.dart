@@ -7,148 +7,262 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'UI Replication Activity',
-      theme: ThemeData(
-        brightness:  Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF121317),
-      ),
-        home: const Socialscreen(),
-
-
-
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SocialScreen(),
     );
   }
 }
 
-//profile
 class Friend {
   String name;
   String status;
-  String game;
-  String avatarPath;
+  String? game;
+  String? avatarPath;
 
-   Friend({
+  Friend({
     required this.name,
     required this.status,
-    required this.game,
-    required this.avatarPath,
+    this.game,
+    this.avatarPath,
   });
 }
 
+class Conversation {
+  String name;
+  String message;
+  String time;
+  bool unread;
+  bool online;
 
-class Socialscreen extends StatefulWidget {
-  const Socialscreen({super.key,});
+  Conversation({
+    required this.name,
+    required this.message,
+    required this.time,
+    required this.unread,
+    required this.online,
+  });
+}
 
+class SocialScreen extends StatefulWidget {
+  const SocialScreen({super.key});
+
+  @override
+  State<SocialScreen> createState() => _SocialScreenState();
+}
+
+class _SocialScreenState extends State<SocialScreen> {
+  List<Friend> valorantFriends = [
+    Friend(name: 'MissYouLikeKrazy', status: 'online', game: 'VALORANT'),
+    Friend(name: 'bread', status: 'playing', game: 'VALORANT'),
+    Friend(name: 'The14th', status: 'playing', game: 'VALORANT'),
+  ];
+
+  List<Friend> onlineFriends = [
+    Friend(name: 'Carlvendish', status: 'away', game: 'Riot Mobile'),
+    Friend(name: 'D1yah', status: 'away'),
+  ];
+
+  List<Conversation> conversations = [
+    Conversation(
+      name: 'MissYouLikeKrazy',
+      message: 'Hey, are you playing later?',
+      time: '2:30 PM',
+      unread: true,
+      online: true,
+    ),
+
+    Conversation(
+      name: '',
+      message: '',
+      time: 'Yesterday',
+      unread: true,
+      online: false,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    List<Friend> valorantfriends = [
-      Friend(name: "MissyouLikeKrazy", status: "Online", game: "Valorant"),
-      Friend(name: "bread", status: "Playing", game: "Valorant" ),
-      Friend(name: "The14th", status: "Playing", game: "Valorant"),
-    ];
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F0F10),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Social',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
-    List<Friend> onlinefriends = [
-      Friend(name: "Carlvendish", status: "Away"  Valorant"),
-      Friend(name: "D1yah", status: "Away",  -Valorant"),
-    ];
+              const SizedBox(height: 12),
 
-return Scaffold(
-backgroundColor: const Color(0xFF0F0F10),
-body: SafeArea(
-child: Padding(
-padding: const EdgeInsets.all(16),
-child: Column(
-crossAxisAlignment: CrossAxisAlignment.start,
-children: [
-// Title
-const Text(
-'Social',
-style: TextStyle(
-color: Colors.white,
-fontSize: 30,
-fontWeight: FontWeight.bold,
-),
-),
-const SizedBox(height: 12),
+              Row(
+                children: const [
+                  Text('Friends', style: TextStyle(color: Colors.grey)),
+                  SizedBox(width: 20),
+                  Text(
+                    'Messages',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Text('Requests', style: TextStyle(color: Colors.grey)),
+                ],
+              ),
 
-// Tabs
-Row(
-children: const [
-Text(
-'Friends',
-style: TextStyle(
-color: Colors.white,
-fontWeight: FontWeight.bold,
-),
-),
-SizedBox(width: 20),
-Text('Messages', style: TextStyle(color: Colors.grey)),
-SizedBox(width: 20),
-Text('Requests', style: TextStyle(color: Colors.grey)),
-],
-),
-const SizedBox(height: 12),
+              const SizedBox(height: 12),
 
-// Search bar
-Container(
-height: 44,
-padding: const EdgeInsets.symmetric(horizontal: 12),
-decoration: BoxDecoration(
-color: const Color(0xFF1A1A1C),
-borderRadius: BorderRadius.circular(10),
-),
-child: const Row(
-children: [
-Icon(Icons.search, color: Colors.grey),
-SizedBox(width: 25,
-Text('Search', style: TextStyle(color: Colors.grey)),
-],
-),
-),
-const SizedBox(height: 16),
+              Container(
+                height: 44,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1A1A1C),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.search, color: Colors.grey),
+                    SizedBox(width: 12),
+                    Text('Search', style: TextStyle(color: Colors.grey)),
+                  ],
+                ),
+              ),
 
-// VALORANT section
-Text(
-'VALORANT ${valorantFriends.length}',
-style: const TextStyle(
-color: Colors.white70,
-fontWeight: FontWeight.bold,
-),
-),
-const SizedBox(height: 10,
+              const SizedBox(height: 20),
 
-// friendlist
-Column(
-children: valorantFriends.map((friend) {
-return buildFriendRow(friend);
-}).toList(),
-),
+              const Text(
+                'Inbox',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
-const SizedBox(height: 16),
+              const SizedBox(height: 10),
 
-// Online section
-Text(
-'Online ${onlineFriends.length}',
-style: const TextStyle(
-color: Colors.white70,
-fontWeight: FontWeight.bold,
-),
-),
-const SizedBox(height: 25,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: conversations.length,
+                  itemBuilder: (context, index) {
+                    Conversation conversation = conversations[index];
 
-Column(
-children: onlineFriends.map((friend) {
-return buildFriendRow(friend);
-}).toList(),
-),
-],
-),
-),
-),
-);
+                    String name = conversation.name;
+
+                    if (name.isEmpty) {
+                      name = 'Unknown User';
+                    }
+
+                    String message = conversation.message;
+
+                    if (message.isEmpty) {
+                      message = 'No message available.';
+                    }
+
+                    return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 6),
+                      leading: Stack(
+                        children: [
+                          const CircleAvatar(
+                            radius: 24,
+                            backgroundColor: Color(0xFF2B2B2E),
+                            child: Icon(Icons.person, color: Colors.white54),
+                          ),
+
+                          if (conversation.online)
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                width: 12,
+                                height: 12,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: const Color(0xFF0F0F10),
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+
+                      title: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: conversation.unread
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                            ),
+                          ),
+
+                          Text(
+                            conversation.time,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      subtitle: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              message,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: conversation.unread
+                                    ? Colors.white70
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ),
+
+                          if (conversation.unread)
+                            Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                        ],
+                      ),
+
+                      onTap: () {
+                        setState(() {
+                          conversation.unread = false;
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -1,29 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Students {
-  String name;
-  String course;
-  String yearLevel;
-  int age;
-  String hobby;
-  String image;
-  String studentId;
-  String email;
-  String favoriteSubject;
-
-  Students(
-    this.name,
-    this.course,
-    this.yearLevel,
-    this.age,
-    this.hobby,
-    this.image,
-    this.studentId,
-    this.email,
-    this.favoriteSubject,
-  );
-}
-
+// The list of students. Each student is a Map.
+// 'isFavorite' tells us if the student is a favorite or not.
 List<Map<String, dynamic>> students = [
   {
     'image': 'assets/Sheeesh.jpg',
@@ -35,6 +13,7 @@ List<Map<String, dynamic>> students = [
     'studentId': '1006',
     'email': 'keithlopez@gmail.com',
     'favoriteSubject': 'Encoder',
+    'isFavorite': false,
   },
   {
     'image': 'assets/goodstudent.jpg',
@@ -46,6 +25,7 @@ List<Map<String, dynamic>> students = [
     'studentId': '1007',
     'email': 'john3123@gmail.com',
     'favoriteSubject': 'Networking',
+    'isFavorite': false,
   },
   {
     'image': 'assets/squintzsasdasd.jpg',
@@ -57,6 +37,7 @@ List<Map<String, dynamic>> students = [
     'studentId': '1008',
     'email': 'Vinsquint15623@gmail.com',
     'favoriteSubject': 'Database',
+    'isFavorite': false,
   },
   {
     'image': 'assets/mrbrightside.jpg',
@@ -68,6 +49,7 @@ List<Map<String, dynamic>> students = [
     'studentId': '1009',
     'email': 'aaronPeel@gmail.com',
     'favoriteSubject': 'Web Development',
+    'isFavorite': false,
   },
   {
     'image': 'assets/Baititser.jpg',
@@ -79,6 +61,7 @@ List<Map<String, dynamic>> students = [
     'studentId': '1010',
     'email': 'sophiathefirst@gmail.com',
     'favoriteSubject': 'Programming',
+    'isFavorite': false,
   },
   {
     'image': 'assets/TUlalalangsakingkwarto.jpg',
@@ -90,6 +73,7 @@ List<Map<String, dynamic>> students = [
     'studentId': '1011',
     'email': 'CarlGar@gmail.com',
     'favoriteSubject': 'Web Development',
+    'isFavorite': false,
   },
 ];
 
@@ -105,165 +89,281 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Student List',
-      home: Scaffold(
-        backgroundColor: Colors.lightBlue[50],
-
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          centerTitle: true,
-          title: const Text(
-            'Student List',
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-
-        // Flag 6 - Empty Classroom
-        body: students.isEmpty
-            ? const Center(
-                child: Text(
-                  'No students found.',
-                  style: TextStyle(fontSize: 20),
-                ),
-              )
-            // Flag 3 and Flag 4 - ListView.builder
-            : ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                itemCount: students.length,
-                itemBuilder: (context, index) {
-                  final student = students[index];
-                  return StudentCard(
-                    image: student['image'],
-                    name: student['name'],
-                    course: student['course'],
-                    yearLevel: student['year'],
-                    age: student['age'],
-                    hobby: student['hobby'],
-                    studentId: student['studentId'],
-                    email: student['email'],
-                    favoriteSubject: student['favoriteSubject'],
-                  );
-                },
-              ),
-      ),
+      home: const StudentListPage(),
     );
   }
 }
 
-// REUSABLE STUDENT CARD
-class StudentCard extends StatelessWidget {
-  final String image;
-  final String? name;
-  final String? course;
-  final int? yearLevel;
-  final int? age;
-  final String? hobby;
-  final String? studentId;
-  final String? email;
-  final String? favoriteSubject;
-
-  const StudentCard({
-    super.key,
-    required this.image,
-    this.name,
-    this.course,
-    this.yearLevel,
-    this.age,
-    this.hobby,
-    this.studentId,
-    this.email,
-    this.favoriteSubject,
-  });
+// Flag 3 - We use a StatefulWidget so the screen can change (setState)
+class StudentListPage extends StatefulWidget {
+  const StudentListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<StudentListPage> createState() => _StudentListPageState();
+}
+
+class _StudentListPageState extends State<StudentListPage> {
+  // ---------------------------------------------------------
+  // Flag 4 - FAVORITE
+  // Turns favorite ON if it is OFF, and OFF if it is ON.
+  // ---------------------------------------------------------
+  void favoriteStudent(int index) {
+    print('Favorite button pressed');
+
+    // setState tells Flutter: "something changed, redraw the screen!"
+    setState(() {
+      if (students[index]['isFavorite'] == true) {
+        students[index]['isFavorite'] = false;
+      } else {
+        students[index]['isFavorite'] = true;
+      }
+    });
+  }
+
+  // ---------------------------------------------------------
+  // Flag 6 - EDIT
+  // Opens a small pop-up (AlertDialog).
+  // ---------------------------------------------------------
+  void editStudent(int index) {
+    print('Edit button pressed');
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Student'),
+          content: Text('Editing ' + students[index]['name']),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // closes the pop-up
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // ---------------------------------------------------------
+  // Flag 5 - DELETE
+  // Removes the student from the list.
+  // ---------------------------------------------------------
+  void deleteStudent(int index) {
+    print('Delete button pressed');
+
+    setState(() {
+      students.removeAt(index);
+    });
+  }
+
+  // ---------------------------------------------------------
+  // Flag 2 - TAP THE CARD
+  // Runs when you tap anywhere on the card.
+  // ---------------------------------------------------------
+  void tapCard(int index) {
+    print('Card tapped');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('You tapped ' + students[index]['name']),
+        duration: const Duration(seconds: 1),
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------
+  // This builds ONE student card.
+  // 'index' is the position of the student in the list.
+  // ---------------------------------------------------------
+  Widget buildStudentCard(int index) {
+    Map<String, dynamic> student = students[index];
+
+    // Default look (not a favorite)
+    Color cardColor = Colors.white;
+    Color borderColor = Colors.blue;
+    IconData starIcon = Icons.star_border;
+    String favoriteLabel = '';
+
+    // Favorite look
+    if (student['isFavorite'] == true) {
+      cardColor = Colors.yellow.shade100;
+      borderColor = Colors.amber;
+      starIcon = Icons.star;
+      favoriteLabel = 'FAVORITE';
+    }
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       elevation: 8,
+      color: cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: Colors.blue, width: 2),
+        side: BorderSide(color: borderColor, width: 2),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // IMAGE
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                image,
-                width: 150,
-                height: 150,
-                fit: BoxFit.cover,
+
+      // Flag 2 - InkWell makes the whole card tappable with onTap
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          tapCard(index);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // FAVORITE LABEL (empty text if not a favorite)
+              Text(
+                favoriteLabel,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 15),
-
-            // NAME
-            Text(
-              name ?? 'Name: Not provided',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+              // IMAGE
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  student['image'],
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 15),
 
-            // COURSE & YEAR LEVEL
-            Text(
-              '${course ?? 'Course: Not provided'} - ${yearLevel ?? '?'} Year',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+              // NAME
+              Text(
+                student['name'],
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            // AGE
-            Text(
-              'Age: ${age ?? 'Not provided'}',
-              style: const TextStyle(fontSize: 14),
-            ),
+              // COURSE & YEAR LEVEL
+              Text(
+                '${student['course']} - ${student['year']} Year',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
-            const SizedBox(height: 5),
+              const SizedBox(height: 10),
 
-            // HOBBY
-            Text(
-              'Hobby: ${hobby ?? 'Not provided'}',
-              style: const TextStyle(fontSize: 14),
-            ),
+              // AGE
+              Text(
+                'Age: ${student['age']}',
+                style: const TextStyle(fontSize: 14),
+              ),
 
-            const SizedBox(height: 15),
+              const SizedBox(height: 5),
 
-            // Flag 5 - Additional information
-            Text(
-              'Student ID: ${studentId ?? 'Not provided'}',
-              style: const TextStyle(fontSize: 13),
-            ),
+              // HOBBY
+              Text(
+                'Hobby: ${student['hobby']}',
+                style: const TextStyle(fontSize: 14),
+              ),
 
-            const SizedBox(height: 2),
+              const SizedBox(height: 15),
 
-            Text(
-              'Email: ${email ?? 'Not provided'}',
-              style: const TextStyle(fontSize: 13),
-            ),
+              // ADDITIONAL INFORMATION
+              Text(
+                'Student ID: ${student['studentId']}',
+                style: const TextStyle(fontSize: 13),
+              ),
 
-            const SizedBox(height: 2),
+              const SizedBox(height: 2),
 
-            Text(
-              'Favorite Subject: ${favoriteSubject ?? 'Not provided'}',
-              style: const TextStyle(fontSize: 13),
-            ),
-          ],
+              Text(
+                'Email: ${student['email']}',
+                style: const TextStyle(fontSize: 13),
+              ),
+
+              const SizedBox(height: 2),
+
+              Text(
+                'Favorite Subject: ${student['favoriteSubject']}',
+                style: const TextStyle(fontSize: 13),
+              ),
+
+              const SizedBox(height: 15),
+
+              // Flag 1 - BUTTONS (each one uses onPressed)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // FAVORITE BUTTON
+                  IconButton(
+                    onPressed: () {
+                      favoriteStudent(index);
+                    },
+                    icon: Icon(starIcon, color: Colors.amber, size: 32),
+                  ),
+
+                  // EDIT BUTTON
+                  IconButton(
+                    onPressed: () {
+                      editStudent(index);
+                    },
+                    icon: const Icon(Icons.edit, color: Colors.blue, size: 28),
+                  ),
+
+                  // DELETE BUTTON
+                  IconButton(
+                    onPressed: () {
+                      deleteStudent(index);
+                    },
+                    icon: const Icon(Icons.delete, color: Colors.red, size: 28),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.lightBlue[50],
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: const Text(
+          'Student List',
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+
+      // If the list is empty, show a message
+      body: students.isEmpty
+          ? const Center(
+              child: Text('No students found.', style: TextStyle(fontSize: 20)),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              itemCount: students.length,
+              itemBuilder: (context, index) {
+                return buildStudentCard(index);
+              },
+            ),
     );
   }
 }

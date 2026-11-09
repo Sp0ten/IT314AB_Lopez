@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
                         const SizedBox(height: 15),
 
                         const Text(
-                          'Keith Francis Lopez',
+                          'JEO ONG',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 28,
